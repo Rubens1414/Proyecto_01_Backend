@@ -1,17 +1,32 @@
 
 import cors from "cors";
 import express from "express";
+import dotenv from "dotenv";
+import connectDB from "./config/db.js";
+import UsuarioRouter from "./Router/usuarios.route.js";
 
+dotenv.config(); 
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+connectDB();
+
 
 // ROUTES
-const SERVER_VERSION = "/api/v1/";
+const BIBLIOTECA = "/api/Biblioteca";
+app.use(BIBLIOTECA + "/usuario", UsuarioRouter);
 
-app.use(SERVER_VERSION);
+
+app.use(BIBLIOTECA,(req,res)=> {
+  res.json({
+  message: "Bienvenido a la API de Biblioteca",
+});
+});
+
+
+
 
 // FALLBACKS
 

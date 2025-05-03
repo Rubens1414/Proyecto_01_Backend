@@ -1,17 +1,19 @@
 import { model,Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 
+const reservaSchema = new Schema({
+    id_libro: { type: Number, required: true },
+    ticket: { type: Number, required: true },
+    titulo: { type: String, required: true },
+    fecha_reserva: { type: Date, required: true },
+    fecha_entrega: { type: Date, required: false }, 
+}, { _id: false })
 export const UsuarioSchema = new Schema({
     id_usuario: { type: Number, required: true, unique: true },
     name: { type: String, required: true },
     email: { type: String, required: true , unique: true},
     password: { type: String, required: true },
-    libros_reservados: { type: Object, default: [{
-        id_libro: { type: Number, required: true },
-        titulo: { type: String, required: true },
-        fecha_reserva: { type: Date, required: true },
-        fecha_entrega: { type: Date, required: true },
-    }] },
+    libros_reservados: { type: [reservaSchema], default: [] },
     isAdmin: { type: Boolean, default: false },
     isActive: { type: Boolean, default: true },
    

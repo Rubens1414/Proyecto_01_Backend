@@ -3,7 +3,8 @@ import readLibroAction from "../Services/search.libro.action.js";
 import updateLibroAction from "../Services/update.libro.action.js";
 import deleteLibroAction from "../Services/delete.libro.action.js";
 import allLibros from "../Services/read.libros.action.js";
-
+import ReservarLibroAction from "../Services/reservar.libro.action.js";
+import DevolverLibroAction from "../Services/devolver.libro.action.js";
 
 async function getLibros(req, res) {
     const libros = await allLibros();
@@ -17,8 +18,6 @@ async function getLibros(req, res) {
         libros: libros,
     });
 }
-
-
 
 async function createLibro(req, res) {
     const { titulo, autor, editorial, fecha_publicacion, descripcion, genero, cantidad } = req.body;
@@ -140,4 +139,65 @@ async function deleteLibro(req, res) {
     }
 }
 
-export {createLibro,readLibro,updateLibro,deleteLibro, getLibros};
+async function reservarLibro(req, res) {
+    const { id_libro } = req.params;
+    const { id_usuario } = req.user;
+    if (!id_libro) {
+        return res.status(400).json({
+            message: "No se ha proporcionado un  id del libro.",
+        });
+    }
+ 
+    const libro = await ReservarLibroAction(id_libro, id_usuario);
+    if (libro === null) {
+        return res.status(404).json({
+            message: "No se encontró el libro.",
+        });
+    }
+    else if (libro === 'No Disponible') {
+        return res.status(400).json({
+            message: "El libro no está disponible.",
+        });
+    }
+    else if (libro === 'No Activo') {
+        return res.status(400).json({
+            message: "El libro no está activo.",
+        });
+    }
+    res.status(200).json({
+        message: "Libro reservado correctamente.",
+        libro: libro,
+    });
+}
+
+async function devolverLibro(req, res) {
+    const {id_libro, ticket } = req.params;
+    const { id_usuario } = req.user;
+    if (!id_libro) {
+        return res.status(400).json({
+            message: "No se ha proporcionado un  id del libro.",
+        });
+    }
+    if (!ticket) {
+        return res.status(400).json({
+            message: "No se ha proporcionado un  ticket.",
+        });
+    }
+    const libro = await DevolverLibroAction(id_libro,ticket, id_usuario);
+    if (libro === 'no reservado') {
+        return res.status(404).json({
+            message: "Este usuario no ha reservado este libro.",
+        });
+    }
+    if (libro === null) {
+        return res.status(404).json({
+            message: "No se encontró el libro o ya fue devuelto.",
+        });
+    }
+    res.status(200).json({
+        message: "Libro devuelto correctamente.",
+        libro: libro,
+    });
+}
+
+export {createLibro,readLibro,updateLibro,deleteLibro, getLibros, reservarLibro,devolverLibro};

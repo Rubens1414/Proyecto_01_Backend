@@ -2,7 +2,7 @@ import { LibroModel } from "../Models/libro.model.js";
 
 
 
-async function readLibroAction(id_libro, genero, autor, titulo, editorial, fecha_publicacion) {
+async function readLibroAction(id_libro, genero, autor, titulo, editorial, fecha_publicacion,isActive) {
    
    
       
@@ -12,9 +12,16 @@ async function readLibroAction(id_libro, genero, autor, titulo, editorial, fecha
         ...(autor && { autor: autor }),
         ...(titulo && { titulo: titulo }),
         ...(editorial && { editorial: editorial }),
-        ...(fecha_publicacion && { fecha_publicacion: fecha_publicacion })
+        ...(fecha_publicacion && { fecha_publicacion: fecha_publicacion }),
+        ...(isActive && { isActive: isActive })
     };
     console.log(Object.keys(filters))
+    if(Object.keys(filters).includes("isActive") === false){
+
+        const libros = await LibroModel.find({...filters,isActive: false});
+
+        return libros;
+    }
 
     if (Object.keys(filters).length === 0) {
         

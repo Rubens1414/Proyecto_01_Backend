@@ -7,6 +7,7 @@ async function createLibroAction(titulo,autor,editorial,fecha_publicacion,descri
     }
     const ultimoLibro = await LibroModel.findOne().sort({ id_libro: -1 });
     const nuevoId = ultimoLibro ? ultimoLibro.id_libro + 1 : 1;
+    const disponibilidad = cantidad > 0 ? 'disponible' : 'no disponible';
     try {
         const libro = new LibroModel({
             id_libro:nuevoId  ,
@@ -17,7 +18,7 @@ async function createLibroAction(titulo,autor,editorial,fecha_publicacion,descri
             descripcion: descripcion,
             genero: genero,
             cantidad: cantidad,
-            disponibilidad: 'disponible',
+            disponibilidad: disponibilidad,
             historial_reservas: [],
         });
         await libro.save();

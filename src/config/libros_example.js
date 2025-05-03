@@ -13,6 +13,7 @@ export const LibrosExample=[
     "historial_reservas": [
       {
         "id_usuario": 200161783,
+        "ticket": 1234,
         "nombre_usuario": "Juan Pérez",
         "fecha_reserva": "2025-04-25",
         "fecha_entrega": "2025-05-10"
@@ -33,6 +34,7 @@ export const LibrosExample=[
     "historial_reservas": [
       {
         "id_usuario": 200161784,
+        "ticket": 5678,
         "nombre_usuario": "María López",
         "fecha_reserva": "2025-04-20",
         "fecha_entrega": "2025-05-05"

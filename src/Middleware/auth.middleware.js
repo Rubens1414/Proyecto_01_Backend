@@ -12,7 +12,7 @@ function BloquearSiLogin(req, res, next) {
     }
     try {
         return res.status(400).json({
-            message: "Ya estás autenticado.",
+            message: "Ya has iniciado sesión.",
         });
     } catch (err) {
       
@@ -25,7 +25,7 @@ function EstaLogin(req, res, next) {
     const token = authHeader && authHeader.split(" ")[1];
 
     if (!token) {
-        return res.status(401).json({ message: "Token requerido" });
+        return res.status(401).json({ message: "Inicio de sesión requerido" });
     }
 
     try {

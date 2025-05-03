@@ -73,13 +73,12 @@ async function readUsuario(req, res) {
         process.env.JWT_SECRET, 
         { expiresIn: "2h" } 
     );
-
     res.status(200).json({
         message: "Inicio de sesión exitoso",
         token,
     });
 }
-
+   
 async function updateUsuario(req, res) {
     const { id_usuario, isAdmin} = req.user;
     const {id_user_update} = req.params;

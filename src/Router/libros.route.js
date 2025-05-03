@@ -16,7 +16,6 @@ LibroRouter.put("/actualizar/:id_libro", EstaLogin, updateLibro);
 LibroRouter.delete("/eliminar/:id_libro", EstaLogin, deleteLibro);
 LibroRouter.get("/reservar/:id_libro", EstaLogin, reservarLibro);
 LibroRouter.get("/devolver/:id_libro/:ticket", EstaLogin, devolverLibro);
-// LibroRouter.get("/historial/:id", EstaLogin, HistorialReservas);
 
 
 

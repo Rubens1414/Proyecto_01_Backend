@@ -56,6 +56,11 @@ async function readUsuario(req, res) {
             message: "El usuario esta inactivo.",
         });
     }
+    if (usuario === 'No coincide') {
+        return res.status(400).json({
+            message: "La contraseña no coincide.",
+        });
+    }
 
     if (!usuario) {
         return res.status(404).json({
@@ -79,6 +84,11 @@ async function updateUsuario(req, res) {
     const { id_usuario, isAdmin} = req.user;
     const {id_user_update} = req.params;
     const { name,email, password} = req.body;
+    if (!id_user_update) {
+        return res.status(400).json({
+            message: "Debes proporcionar el id del usuario a actualizar.",
+        });
+    }
    
     if(isAdmin == false && id_usuario != id_user_update ){
         
@@ -92,7 +102,7 @@ async function updateUsuario(req, res) {
                 message: "El usuario está inactivo.",
             });
         }
-        if (!usuario) {
+        if (usuario === null) {
             return res.status(404).json({
                 message: "Usuario no encontrado. ",
             });
@@ -102,7 +112,7 @@ async function updateUsuario(req, res) {
         });
     }
     else{
-        const usuario = await updateUsuarioAction(id_usuario, name, email, password);
+        const usuario = await updateUsuarioAction(id_user_update, name, email, password);
         if(usuario == 'Inactivo'){
             return res.status(400).json({
                 message: "El usuario está inactivo.",
@@ -124,7 +134,12 @@ async function updateUsuario(req, res) {
 async function deleteUsuario(req, res) {
     const { id_usuario, isAdmin} = req.user;
     const {id_user_delete} = req.params;
-    console.log(id_user_delete);
+    if (!id_user_delete) {
+        return res.status(400).json({
+            message: "No se ha encontrado el id del usuario.",
+        });
+    }
+   
     if(isAdmin == false && id_usuario != id_user_update ){
         
         return res.status(403).json({
@@ -149,7 +164,7 @@ async function deleteUsuario(req, res) {
         });
     }
     else{
-        const usuario = await deleteUsuarioAction(id_usuario);
+        const usuario = await deleteUsuarioAction(id_user_delete);
      
         if (!usuario) {
             return res.status(404).json({

@@ -4,6 +4,7 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import UsuarioRouter from "./Router/usuarios.route.js";
+import LibroRouter from "./Router/libros.route.js";
 
 dotenv.config(); 
 
@@ -16,19 +17,13 @@ connectDB();
 
 // ROUTES
 const BIBLIOTECA = "/api/Biblioteca";
+app.get("/", (req, res) => {
+  res.send("Biblioteca API.");
+});
 app.use(BIBLIOTECA + "/usuario", UsuarioRouter);
+app.use(BIBLIOTECA + "/libro", LibroRouter);
 
 
-app.use(BIBLIOTECA,(req,res)=> {
-  res.json({
-  message: "Bienvenido a la API de Biblioteca",
-});
-});
-
-
-
-
-// FALLBACKS
 
 function routeNotFound(request, response) {
   response.status(404).json({

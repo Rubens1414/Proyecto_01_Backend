@@ -3,10 +3,7 @@ import { UsuarioModel } from "../Models/usuario.model.js";
 
 
 async function deleteUsuarioAction (id_usuario) {
-    if (!id_usuario) {
-        console.log("No se ha proporcionado un id_usuario.");
-        return null;
-    }
+  
     const usuario = await UsuarioModel.findOne({ id_usuario });
     if (usuario.isActive == false) {
         console.log("El usuario ya está inactivo.");
@@ -17,10 +14,10 @@ async function deleteUsuarioAction (id_usuario) {
         console.log("Usuario no encontrado.");
         return null;
     }
-    usuario.isActive = false;
-    await usuario.save();
+    
+    const usuarioel = await usuario.findOneAndUpdate({ id_usuario }, { isActive: false }, { new: true });
     console.log("Usuario eliminado correctamente.");
-    return usuario;
+    return usuarioel;
 
    
  

@@ -8,7 +8,7 @@ export const LibrosExample=[
     "descripcion": "Una obra maestra de la literatura que narra la historia de la familia Buendía en Macondo.",
     "genero": "Realismo mágico",
     "cantidad": 5,
-    "disponibilidad": true,
+    "disponibilidad": "no disponible",
     "isActive": true,
     "historial_reservas": [
       {
@@ -28,7 +28,7 @@ export const LibrosExample=[
     "descripcion": "Las aventuras del ingenioso hidalgo Don Quijote y su fiel escudero Sancho Panza.",
     "genero": "Novela",
     "cantidad": 7,
-    "disponibilidad": true,
+    "disponibilidad": "disponible",
     "isActive": true,
     "historial_reservas": [
       {

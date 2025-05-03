@@ -7,8 +7,10 @@ const UsuarioRouter = Router();
 UsuarioRouter.get("/todos", getAllUsuarios);
 UsuarioRouter.post("/crear", createUsuario);
 UsuarioRouter.post("/login", BloquearSiLogin, readUsuario);
+// UsuarioRouter.get("/logout", EstaLogin, readUsuario);
 UsuarioRouter.put("/actualizar/:id_user_update", EstaLogin, updateUsuario);
 UsuarioRouter.delete("/eliminar/:id_user_delete", EstaLogin, deleteUsuario);
+// UsuarioRouter.get("/historial/:id_user", EstaLogin, HistorialReservas);
 
 
 

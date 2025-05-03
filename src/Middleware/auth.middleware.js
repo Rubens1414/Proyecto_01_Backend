@@ -10,7 +10,6 @@ function BloquearSiLogin(req, res, next) {
     if (!token) {
         return next(); 
     }
-
     try {
         return res.status(400).json({
             message: "Ya estás autenticado.",
@@ -35,7 +34,7 @@ function EstaLogin(req, res, next) {
       
         next();
     } catch (err) {
-        
+        console.error(err);
         return res.status(403).json({ message: "Token inválido o expirado" });
     }
 }

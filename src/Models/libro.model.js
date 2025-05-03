@@ -9,7 +9,7 @@ export const libroSchema = new Schema({
     descripcion: { type: String, required: true },
     genero: { type: String, required: true },
     cantidad: { type: Number, required: true },
-    disponibilidad: { type: Boolean, default: true },
+    disponibilidad:{ type: String, required: true },
     historial_reservas: { type: Object, default: [{
         id_usuario: { type: Number, required: true },
         nombre_usuario: { type: String, required: true },

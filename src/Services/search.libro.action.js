@@ -13,6 +13,7 @@ async function readLibroAction(id_libro, genero, autor, titulo, editorial, fecha
         ...(fecha_publicacion && { fecha_publicacion: fecha_publicacion }),
         ...(isActive && { isActive: isActive })
     };
+    console.log(filters);
  
     
     if (Object.keys(filters).length === 0) {
@@ -20,9 +21,17 @@ async function readLibroAction(id_libro, genero, autor, titulo, editorial, fecha
         return "Sin filtros";
     }
     //si filtros tiene isActive y es false, busca los libros inactivos
-    if(!Object.keys(filters).includes("isActive") === false && isActive === false){
-        console.log('no tiene isActive');
-        const libros = await LibroModel.find({...filters,isActive: false});
+    if(Object.keys(filters).includes("isActive") === true){
+        console.log('si tiene isActive');
+        if(filters.isActive === "false"){
+            console.log('es false');
+            const libros = await LibroModel.find({...filters, isActive: false});
+            return libros;
+        }else if(filters.isActive === "true"){
+            console.log('es true');
+            const libros = await LibroModel.find({...filters, isActive: true});
+            return libros;
+        }
 
         return libros;
     }

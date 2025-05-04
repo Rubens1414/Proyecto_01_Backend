@@ -51,7 +51,7 @@ async function createLibro(req, res) {
 //busca un libro por id o por los demas campos
 async function readLibro(req,res) {
     
-    const { id_libro, genero, autor, titulo, editorial, fecha_publicacion } = req.query;
+    const { id_libro, genero, autor, titulo, editorial, fecha_publicacion,isActive } = req.query;
    
     if(Object.keys(req.query).length == 0){
         const libros = await allLibros();
@@ -65,7 +65,7 @@ async function readLibro(req,res) {
             libros: libros,
         });
     }else{
-        const libros = await readLibroAction(id_libro, genero, autor, titulo, editorial, fecha_publicacion);
+        const libros = await readLibroAction(id_libro, genero, autor, titulo, editorial, fecha_publicacion,isActive);
         if (libros === null) {
             return res.status(404).json({
                 message: "No se encontraron libros con los criterios de búsqueda proporcionados.",

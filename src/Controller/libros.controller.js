@@ -21,13 +21,8 @@ async function getLibros(req, res) {
 
 async function createLibro(req, res) {
     const { titulo, autor, editorial, fecha_publicacion, descripcion, genero, cantidad } = req.body;
-    const {isAdmin} = req.user;
-    if(isAdmin == false){
-        return res.status(403).json({
-            message: "No tienes permisos para crear libros.",
-        });
-    }
-    else if (!titulo || !autor || !editorial || !fecha_publicacion || !descripcion || !genero || !cantidad) {
+   
+    if (!titulo || !autor || !editorial || !fecha_publicacion || !descripcion || !genero || !cantidad) {
         return res.status(400).json({
             message: "Todos los campos son obligatorios.",
         });
@@ -70,17 +65,12 @@ async function readLibro(req,res) {
 async function updateLibro(req, res) {
     const { id_libro } = req.params;
     const {  titulo, autor, editorial, fecha_publicacion, descripcion, genero, cantidad,disponibilidad } = req.body;
-    const {isAdmin} = req.user;
     if(id_libro == undefined){
         return res.status(400).json({
             message: "No se ha proporcionado un  id del libro.",
         });
     }
-    if(isAdmin == false){
-        return res.status(403).json({
-            message: "No tienes permisos para actualizar libros.",
-        });
-    }
+   
     else if (!id_libro || !titulo || !autor || !editorial || !fecha_publicacion || !descripcion || !genero || !cantidad) {
         return res.status(400).json({
             message: "Todos los campos son obligatorios.",
@@ -108,13 +98,8 @@ async function updateLibro(req, res) {
 
 async function deleteLibro(req, res) {
     const { id_libro } = req.params;
-    const {isAdmin} = req.user;
-    if(isAdmin == false){
-        return res.status(403).json({
-            message: "No tienes permisos para eliminar libros.",
-        });
-    }
-    else if (!id_libro) {
+   
+    if (!id_libro) {
         return res.status(400).json({
             message: "No se ha proporcionado un  id del libro.",
         });

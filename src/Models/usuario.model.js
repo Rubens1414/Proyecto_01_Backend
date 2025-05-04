@@ -8,13 +8,23 @@ const reservaSchema = new Schema({
     fecha_reserva: { type: Date, required: true },
     fecha_entrega: { type: Date, required: false }, 
 }, { _id: false })
+
 export const UsuarioSchema = new Schema({
     id_usuario: { type: Number, required: true, unique: true },
     name: { type: String, required: true },
     email: { type: String, required: true , unique: true},
     password: { type: String, required: true },
     libros_reservados: { type: [reservaSchema], default: [] },
-    isAdmin: { type: Boolean, default: false },
+    permisos: {
+        type: Object,
+        default: {
+            "ACTUALIZAR-USUARIOS": false,
+            "ELIMINAR-USUARIOS": false,
+            "CREAR-LIBROS": false,
+            "ACTUALIZAR-LIBROS": false,
+            "ELIMINAR-LIBROS": false
+        }
+    },
     isActive: { type: Boolean, default: true },
    
  

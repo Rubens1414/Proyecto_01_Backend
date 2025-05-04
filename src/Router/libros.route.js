@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {createLibro} from "../Controller/libros.controller.js";
-import {EstaLogin} from "../Middleware/auth.middleware.js";
+import {EstaLogin, permisoCrearLibro, permisoActualizarLibro, permisoEliminarLibro} from "../Middleware/auth.middleware.js";
 import {readLibro} from "../Controller/libros.controller.js";
 import {updateLibro} from "../Controller/libros.controller.js";
 import {deleteLibro} from "../Controller/libros.controller.js";
@@ -10,10 +10,10 @@ import { devolverLibro } from "../Controller/libros.controller.js";
 
 const LibroRouter = Router();
 LibroRouter.get("/", getLibros);
-LibroRouter.post("/crear", EstaLogin, createLibro);
+LibroRouter.post("/crear", EstaLogin,permisoCrearLibro, createLibro);
 LibroRouter.get("/buscar",  readLibro);
-LibroRouter.put("/actualizar/:id_libro", EstaLogin, updateLibro);
-LibroRouter.delete("/eliminar/:id_libro", EstaLogin, deleteLibro);
+LibroRouter.put("/actualizar/:id_libro", EstaLogin,permisoActualizarLibro, updateLibro);
+LibroRouter.delete("/eliminar/:id_libro", EstaLogin,permisoEliminarLibro, deleteLibro);
 LibroRouter.get("/reservar/:id_libro", EstaLogin, reservarLibro);
 LibroRouter.get("/devolver/:id_libro/:ticket", EstaLogin, devolverLibro);
 

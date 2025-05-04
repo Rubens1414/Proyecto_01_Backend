@@ -5,6 +5,10 @@ import bcrypt from "bcryptjs";
 
 async function readUsuarioAction (email, password) {
     const usuario = await UsuarioModel.findOne({ email });
+
+    if(usuario.isActive == false){
+        return 'Inactivo';
+    }
  
    
     if (!usuario) {

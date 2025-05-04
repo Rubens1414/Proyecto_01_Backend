@@ -1,10 +1,6 @@
 import { LibroModel } from "../Models/libro.model.js";
 
-
-
 async function updateLibroAction(id_libro, titulo, autor, editorial, fecha_publicacion, descripcion, genero, cantidad,disponibilidad) {
-
-   
     const libro = await LibroModel.findOne({ id_libro });
     if (!libro) {
         console.log("No se encontró el libro.");

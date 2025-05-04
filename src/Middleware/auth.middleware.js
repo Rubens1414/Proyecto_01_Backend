@@ -22,6 +22,7 @@ function BloquearSiLogin(req, res, next) {
 
 function EstaLogin(req, res, next) {
     const authHeader = req.headers["authorization"];
+  
     const token = authHeader && authHeader.split(" ")[1];
 
     if (!token) {
@@ -31,6 +32,7 @@ function EstaLogin(req, res, next) {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decoded; 
+        
       
         next();
     } catch (err) {
@@ -39,5 +41,41 @@ function EstaLogin(req, res, next) {
     }
 }
 
+function permisosControl(parametro_permiso,req,res,next, mensaje) {
 
-export  {BloquearSiLogin, EstaLogin};
+    const {permisos} = req.user;
+    
+    if (permisos[parametro_permiso] == true) {
+        next()
+    } else {
+        return res.status(403).json({
+            message: mensaje,
+        });
+    }
+
+}
+
+function permisoCrearLibro(req, res, next) {
+    const mensaje='No tiene permiso para crear libros'
+    permisosControl("CREAR-LIBROS",req,res,next,mensaje)
+}
+function permisoActualizarLibro(req, res, next) {
+    const mensaje='No tiene permiso para actualizar libros'
+    permisosControl("ACTUALIZAR-LIBROS",req,res,next,mensaje )
+}
+function permisoEliminarLibro(req, res, next) {
+    const mensaje='No tiene permiso para eliminar libros'
+    permisosControl("ELIMINAR-LIBROS",req,res,next,mensaje)
+}
+function permisoActualizarUsuario(req, res, next) {
+    const mensaje='No tiene permiso para actualizar usuarios'
+    permisosControl("ACTUALIZAR-USUARIOS",req,res,next,mensaje)
+}
+function permisoEliminarUsuario(req,res,next) {
+    const mensaje='No tiene permiso para eliminar usuarios'
+    permisosControl("ELIMINAR-USUARIOS",req,res,next, mensaje)
+}
+
+
+
+export  {BloquearSiLogin, EstaLogin, permisoCrearLibro, permisoActualizarLibro, permisoEliminarLibro, permisoActualizarUsuario, permisoEliminarUsuario};

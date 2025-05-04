@@ -17,6 +17,7 @@ async function getAllUsuarios(req, res) {
 }
 async function createUsuario(req, res) {
     const { name, email, password } = req.body;
+
     if (!name || !email || !password) {
         res.status(400).json({
             message: "Faltan datos.",
@@ -51,7 +52,7 @@ async function readUsuario(req, res) {
     }
 
     const usuario = await readUsuarioAction(email, password);
-    if(usuario.isActive == false){
+    if(usuario== 'Inactivo'){
         return res.status(400).json({
             message: "El usuario esta inactivo.",
         });
@@ -69,9 +70,9 @@ async function readUsuario(req, res) {
     }
 
     const token = jwt.sign(
-        { id_usuario: usuario.id_usuario, email: usuario.email, isAdmin: usuario.isAdmin }, 
+        { id_usuario: usuario.id_usuario, email: usuario.email, permisos: usuario.permisos}, 
         process.env.JWT_SECRET, 
-        { expiresIn: "2h" } 
+        { expiresIn: "4h" } 
     );
     res.status(200).json({
         message: "Inicio de sesión exitoso",
@@ -80,7 +81,6 @@ async function readUsuario(req, res) {
 }
    
 async function updateUsuario(req, res) {
-    const { id_usuario, isAdmin} = req.user;
     const {id_user_update} = req.params;
     const { name,email, password} = req.body;
     if (!id_user_update) {
@@ -89,16 +89,16 @@ async function updateUsuario(req, res) {
         });
     }
    
-    if(isAdmin == false && id_usuario != id_user_update ){
-        
-        return res.status(403).json({
-            message: "No tienes permisos para actualizar otros usuarios.",
-        });
-    }else if (isAdmin == true && id_usuario != id_user_update) {
+    
         const usuario = await updateUsuarioAction(id_user_update, name, email, password);
         if(usuario == 'Inactivo'){
             return res.status(400).json({
                 message: "El usuario está inactivo.",
+            });
+        }
+        if(usuario == 'Email Existente'){
+            return res.status(400).json({
+                message: "El email ya existe en otro usuario.",
             });
         }
         if (usuario === null) {
@@ -109,42 +109,20 @@ async function updateUsuario(req, res) {
         res.status(200).json({
             message: "Usuario actualizado correctamente.",
         });
-    }
-    else{
-        const usuario = await updateUsuarioAction(id_user_update, name, email, password);
-        if(usuario == 'Inactivo'){
-            return res.status(400).json({
-                message: "El usuario está inactivo.",
-            });
-        }
-        if (!usuario) {
-            return res.status(404).json({
-                message: "Usuario no encontrado.",
-            });
-        }
-        res.status(200).json({
-            message: "Usuario actualizado correctamente.",
-        });
-    }
-    
-
+ 
 }
 
 async function deleteUsuario(req, res) {
-    const { id_usuario, isAdmin} = req.user;
+    console.log(req.user);
+    const {isActive} = req.user;
+    console.log(isActive);
     const {id_user_delete} = req.params;
     if (!id_user_delete) {
         return res.status(400).json({
             message: "No se ha encontrado el id del usuario.",
         });
     }
-   
-    if(isAdmin == false && id_usuario != id_user_update ){
-        
-        return res.status(403).json({
-            message: "No tienes permisos para eliminar a otros usuarios.",
-        });
-    }else if (isAdmin == true && id_usuario != id_user_delete) {
+    
         const usuario = await deleteUsuarioAction(id_user_delete);
 
         if(usuario === 'Inactivo'){
@@ -161,19 +139,6 @@ async function deleteUsuario(req, res) {
         res.status(200).json({
             message: "Usuario eliminado correctamente.",
         });
-    }
-    else{
-        const usuario = await deleteUsuarioAction(id_user_delete);
-     
-        if (!usuario) {
-            return res.status(404).json({
-                message: "Usuario no encontrado.",
-            });
-        }
-        res.status(200).json({
-            message: "Usuario eliminado correctamente.",
-        });
-    }
     
 
 }

@@ -15,7 +15,7 @@ async function deleteUsuarioAction (id_usuario) {
         return null;
     }
     
-    const usuarioel = await usuario.findOneAndUpdate({ id_usuario }, { isActive: false }, { new: true });
+    const usuarioel = await UsuarioModel.findOneAndUpdate({ id_usuario }, { isActive: false }, { new: true });
     console.log("Usuario eliminado correctamente.");
     return usuarioel;
 

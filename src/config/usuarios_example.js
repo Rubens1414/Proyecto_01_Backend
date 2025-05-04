@@ -1,10 +1,18 @@
+import fa from "date-and-time/locale/fa";
+
 export const UsuariosExample = [
   {
     "id_usuario": 200161783,
     "name": "Juan Pérez",
     "email": "juan.perez@example.com",
     "password": "hashedpassword1",
-    "isAdmin": false,
+    "permisos": {
+      "ACTUALIZAR-USUARIOS": false,
+      "ELIMINAR-USUARIOS": false,
+      "CREAR-LIBROS": false,
+      "ACTUALIZAR-LIBROS": false,
+      "ELIMINAR-LIBROS": false
+    },
     "isActive": true,
     "libros_reservados": [
       {
@@ -21,7 +29,13 @@ export const UsuariosExample = [
     "name": "María López",
     "email": "maria.lopez@example.com",
     "password": "hashedpassword2",
-    "isAdmin": false,
+    "permisos": {
+      "ACTUALIZAR-USUARIOS": true,
+      "ELIMINAR-USUARIOS": true,
+      "CREAR-LIBROS": true,
+      "ACTUALIZAR-LIBROS": true,
+      "ELIMINAR-LIBROS": true
+    },
     "isActive": true,
     "libros_reservados": [
       {

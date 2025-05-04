@@ -71,9 +71,11 @@ async function updateLibro(req, res) {
         });
     }
    
-    else if (!id_libro || !titulo || !autor || !editorial || !fecha_publicacion || !descripcion || !genero || !cantidad) {
+    // Poner parametros por lo menos uno para que no se actualice todo el libro
+
+    if (!titulo && !autor && !editorial && !fecha_publicacion && !descripcion && !genero && !cantidad && !disponibilidad) {
         return res.status(400).json({
-            message: "Todos los campos son obligatorios.",
+            message: "No se ha proporcionado ningún campo para actualizar.",
         });
     }
     else {

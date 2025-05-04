@@ -19,6 +19,7 @@ async function updateUsuario (id_usuario, name, email, password) {
         console.log("Usuario no encontrado.");
         return null;
     }
+  
 
     password = await bcrypt.hash(password, 10);
   

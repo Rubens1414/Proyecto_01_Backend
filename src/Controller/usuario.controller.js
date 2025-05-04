@@ -88,6 +88,11 @@ async function updateUsuario(req, res) {
             message: "Debes proporcionar el id del usuario a actualizar.",
         });
     }
+    if (!name && !email && !password) {
+        return res.status(400).json({
+            message: "Debes proporcionar al menos un campo para actualizar.",
+        });
+    }
    
     
         const usuario = await updateUsuarioAction(id_user_update, name, email, password);
@@ -96,7 +101,7 @@ async function updateUsuario(req, res) {
                 message: "El usuario está inactivo.",
             });
         }
-        if(usuario == 'Email Existente'){
+        if(usuario == 'Email Existente o es el mismo'){
             return res.status(400).json({
                 message: "El email ya existe en otro usuario.",
             });

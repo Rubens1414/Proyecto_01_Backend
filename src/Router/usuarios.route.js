@@ -4,10 +4,15 @@ import {BloquearSiLogin,EstaLogin,permisoActualizarUsuario, permisoEliminarUsuar
 
 
 const UsuarioRouter = Router();
+//Muestra todos los usuarios
 UsuarioRouter.get("/todos", getAllUsuarios);
+//Crear un usuario 
 UsuarioRouter.post("/crear", createUsuario);
+//  login con  email y contraseña
 UsuarioRouter.post("/login", BloquearSiLogin, readUsuario);
+//Actualizar un usuario por  su id
 UsuarioRouter.put("/actualizar/:id_user_update", EstaLogin,permisoActualizarUsuario, updateUsuario);
+//Eliminar un usuario por su id
 UsuarioRouter.delete("/eliminar/:id_user_delete", EstaLogin,permisoEliminarUsuario, deleteUsuario);
 
 

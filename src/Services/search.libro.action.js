@@ -3,9 +3,7 @@ import { LibroModel } from "../Models/libro.model.js";
 
 
 async function readLibroAction(id_libro, genero, autor, titulo, editorial, fecha_publicacion,isActive) {
-   
-   
-      
+    // agrega los filtros que si estan 
     const filters = {
         ...(id_libro && { id_libro: id_libro }),
         ...(genero && { genero: genero }),
@@ -15,7 +13,7 @@ async function readLibroAction(id_libro, genero, autor, titulo, editorial, fecha
         ...(fecha_publicacion && { fecha_publicacion: fecha_publicacion }),
         ...(isActive && { isActive: isActive })
     };
-    console.log(Object.keys(filters))
+    //si filtros tiene isActive y es false, busca los libros inactivos
     if(Object.keys(filters).includes("isActive") === false){
 
         const libros = await LibroModel.find({...filters,isActive: false});
@@ -29,7 +27,7 @@ async function readLibroAction(id_libro, genero, autor, titulo, editorial, fecha
     }
 
     
-
+    //Busca los libros activos con los filtros que se le pasaron
     const libros = await LibroModel.find({...filters,isActive: true});
 
     if (libros.length === 0) {

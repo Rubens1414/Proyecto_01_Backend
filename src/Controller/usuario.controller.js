@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
 dotenv.config(); 
-
+//Obtiene todos los usuarios
 async function getAllUsuarios(req, res) {
    
    
@@ -15,6 +15,8 @@ async function getAllUsuarios(req, res) {
     res.status(200).json(usuarios);
 
 }
+
+//Crea un nuevo usuario
 async function createUsuario(req, res) {
     const { name, email, password } = req.body;
 
@@ -37,11 +39,23 @@ async function createUsuario(req, res) {
         return;
     }
     const usuario = await createUsuarioAction(name, email, password);
+    if (usuario === 'Existe') {
+        res.status(400).json({
+            message: "El usuario ya existe.",
+        });
+        return;
+    }
+    if (!usuario) {
+        res.status(500).json({
+            message: "Error al crear el usuario.",
+        });
+        return;
+    }
     res.status(201).json(usuario);
 }
 
 
-
+// Inicia sesión con un usuario
 async function readUsuario(req, res) {
     const { email, password } = req.body;
 
@@ -69,17 +83,19 @@ async function readUsuario(req, res) {
         });
     }
 
+    // Generar el token JWT
     const token = jwt.sign(
         { id_usuario: usuario.id_usuario, email: usuario.email, permisos: usuario.permisos}, 
         process.env.JWT_SECRET, 
         { expiresIn: "4h" } 
     );
+
     res.status(200).json({
         message: "Inicio de sesión exitoso",
         token,
     });
 }
-   
+// Actualiza un usuario por su id
 async function updateUsuario(req, res) {
     const {id_user_update} = req.params;
     const { name,email, password} = req.body;
@@ -106,7 +122,7 @@ async function updateUsuario(req, res) {
                 message: "El email ya existe en otro usuario.",
             });
         }
-        if (usuario === null) {
+        if (usuario === null || usuario === undefined) {
             return res.status(404).json({
                 message: "Usuario no encontrado. ",
             });
@@ -117,10 +133,9 @@ async function updateUsuario(req, res) {
  
 }
 
+// Elimina un usuario por su id
 async function deleteUsuario(req, res) {
-    console.log(req.user);
-    const {isActive} = req.user;
-    console.log(isActive);
+   
     const {id_user_delete} = req.params;
     if (!id_user_delete) {
         return res.status(400).json({

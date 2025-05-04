@@ -6,6 +6,7 @@ import allLibros from "../Services/read.libros.action.js";
 import ReservarLibroAction from "../Services/reservar.libro.action.js";
 import DevolverLibroAction from "../Services/devolver.libro.action.js";
 
+//Muestra todos los libros
 async function getLibros(req, res) {
     const libros = await allLibros();
     if (libros === null) {
@@ -18,7 +19,7 @@ async function getLibros(req, res) {
         libros: libros,
     });
 }
-
+//crea un libro
 async function createLibro(req, res) {
     const { titulo, autor, editorial, fecha_publicacion, descripcion, genero, cantidad } = req.body;
    
@@ -29,6 +30,17 @@ async function createLibro(req, res) {
     }
     else {
         const libro = await createLibroAction(titulo, autor, editorial, fecha_publicacion, descripcion, genero, cantidad);
+        if (libro === null) {
+            return res.status(404).json({
+                message: "No se pudo crear el libro.",
+            });
+        }
+        if (libro === 'Existe') {
+            return res.status(400).json({
+                message: "El libro ya existe.",
+            });
+        }
+        
         res.status(201).json({
             message: "Libro creado correctamente.",
             libro: libro,
@@ -36,6 +48,7 @@ async function createLibro(req, res) {
     }
 }
 
+//busca un libro por id o por los demas campos
 async function readLibro(req,res) {
     const { id_libro, genero, autor, titulo, editorial, fecha_publicacion } = req.query;
 
@@ -62,6 +75,7 @@ async function readLibro(req,res) {
 
 }
 
+//actualiza un libro por id
 async function updateLibro(req, res) {
     const { id_libro } = req.params;
     const {  titulo, autor, editorial, fecha_publicacion, descripcion, genero, cantidad,disponibilidad } = req.body;
@@ -97,7 +111,7 @@ async function updateLibro(req, res) {
         });
     }
 }
-
+//borra un libro por id
 async function deleteLibro(req, res) {
     const { id_libro } = req.params;
    
@@ -125,6 +139,8 @@ async function deleteLibro(req, res) {
         });
     }
 }
+
+//Reserva un libro por id
 
 async function reservarLibro(req, res) {
     const { id_libro } = req.params;
@@ -156,7 +172,7 @@ async function reservarLibro(req, res) {
         libro: libro,
     });
 }
-
+// Devuelve el libro dando su id con el ticket
 async function devolverLibro(req, res) {
     const {id_libro, ticket } = req.params;
     const { id_usuario } = req.user;

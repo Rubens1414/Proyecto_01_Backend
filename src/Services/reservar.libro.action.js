@@ -24,8 +24,9 @@ async function ReservarLibroAction(id_libro, id_usuario) {
     const cantidad = libro.cantidad - 1;
     
     const disponibilidad = cantidad > 0 ? 'disponible' : 'no disponible';
+    // Generar un ticket aleatorio de 4 dígitos
     const ticket = Math.floor(Math.floor(Math.random() * 9000) + 1000);
-
+    // Verificar si el ticket ya existe en el historial de reservas del libro y si el libro no ha sido devuelto
     const libro_con_ticket_igual = await LibroModel.findOne({ historial_reservas:{$elemMatch:{id_usuario: id_usuario, ticket:ticket, fecha_entrega: null} }});
 
     if (libro_con_ticket_igual) {
@@ -62,7 +63,7 @@ async function ReservarLibroAction(id_libro, id_usuario) {
         { new: true }
       
     );
-    console.log (usera);
+
     return libroActualizado;
 }
 export default ReservarLibroAction;

@@ -2,7 +2,7 @@ import fa from "date-and-time/locale/fa";
 
 export const UsuariosExample = [
   {
-    "id_usuario": 200161783,
+    "id_usuario": 1,
     "name": "Juan Pérez",
     "email": "juan.perez@example.com",
     "password": "hashedpassword1",
@@ -25,7 +25,7 @@ export const UsuariosExample = [
     ]
   },
   {
-    "id_usuario": 200161784,
+    "id_usuario": 2,
     "name": "María López",
     "email": "maria.lopez@example.com",
     "password": "hashedpassword2",

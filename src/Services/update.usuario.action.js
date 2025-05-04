@@ -20,7 +20,7 @@ async function updateUsuario (id_usuario, name, email, password) {
         return null;
     }
   
-
+    // hash password para la base de datos
     password = await bcrypt.hash(password, 10);
   
     const usuarioact = await UsuarioModel.updateOne({ id_usuario }, { name, email, password }, { new: true });

@@ -1,22 +1,24 @@
 import { UsuarioModel } from "../Models/usuario.model.js";
 
 async function createUsuarioAction (name, email, password) {
-    try {
-        const usarioExiste = await UsuarioModel.findOne({ email });
-        if (usarioExiste) {
-            throw new Error("El usuario ya existe.");
-        }
-        const usuario = new UsuarioModel({
-            id_usuario : 200000000 + Math.floor(Math.random() * 1000000),
-            name,
-            email,
-            password,
-        });
-        await usuario.save();
-        return usuario;
-    } catch (error) {
-        throw new Error(error.message);
+
+    // Validar que el usuario no exista
+    const usarioExiste = await UsuarioModel.findOne({ email });
+    if (usarioExiste) {
+        return 'Existe';
     }
+     // Obtener el último id_usuario y sumarle 1 para el nuevo usuario
+    const ultimoUsuario = await UsuarioModel.findOne().sort({ id_usuario: -1 });
+    const nuevoId = ultimoUsuario ? ultimoUsuario.id_usuario + 1 : 1;
+    const usuario = new UsuarioModel({
+        id_usuario : nuevoId,
+        name,
+        email,
+        password,
+    });
+    await usuario.save();
+    return usuario;
+    
 
 }
 

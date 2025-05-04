@@ -50,28 +50,48 @@ async function createLibro(req, res) {
 
 //busca un libro por id o por los demas campos
 async function readLibro(req,res) {
+    
     const { id_libro, genero, autor, titulo, editorial, fecha_publicacion } = req.query;
-
-    const libros = await readLibroAction(id_libro, genero, autor, titulo, editorial, fecha_publicacion);
-    
-    if (libros === null) {
-        return res.status(404).json({
-            message: "No se encontraron libros con los criterios de búsqueda proporcionados.",
-        });
-    }
-    
-
-    if(id_libro != undefined && libros[0].id_libro == id_libro){
-        return res.status(200).json({
-            message: "Libro encontrado.",
-            libro: libros,
-        });
-    }else {
-        return res.status(200).json({
+   
+    if(Object.keys(req.query).length == 0){
+        const libros = await allLibros();
+        if (libros === null) {
+            return res.status(404).json({
+                message: "No se encontraron libros.",
+            });
+        }
+        res.status(200).json({
             message: "Libros encontrados.",
             libros: libros,
         });
+    }else{
+        const libros = await readLibroAction(id_libro, genero, autor, titulo, editorial, fecha_publicacion);
+        if (libros === null) {
+            return res.status(404).json({
+                message: "No se encontraron libros con los criterios de búsqueda proporcionados.",
+            });
+        }
+        if (libros === 'Sin filtros') {
+            return res.status(400).json({
+                message: "No se han proporcionado filtros.",
+            });
+        }
+    
+    
+        if(id_libro != undefined && libros[0].id_libro == id_libro){
+            return res.status(200).json({
+                message: "Libro encontrado.",
+                libro: libros,
+            });
+        }else {
+            return res.status(200).json({
+                message: "Libros encontrados.",
+                libros: libros,
+            });
+        }
     }
+    
+    
 
 }
 

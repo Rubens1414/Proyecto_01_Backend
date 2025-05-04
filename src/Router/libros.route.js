@@ -15,7 +15,7 @@ LibroRouter.get("/", getLibros);
 //Crear un libro 
 LibroRouter.post("/crear", EstaLogin,permisoCrearLibro, createLibro);
 //Buscar un libro por id o por filtros
-LibroRouter.get("/buscar",  readLibro);
+LibroRouter.get("/buscar/",  readLibro);
 //Actualizar un libro por  su id
 LibroRouter.put("/actualizar/:id_libro", EstaLogin,permisoActualizarLibro, updateLibro);
 //Eliminar un libro por su id

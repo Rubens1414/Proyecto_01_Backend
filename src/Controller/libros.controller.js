@@ -1,10 +1,10 @@
-import createLibroAction from "../Services/create.libro.action.js";
-import readLibroAction from "../Services/search.libro.action.js";
-import updateLibroAction from "../Services/update.libro.action.js";
-import deleteLibroAction from "../Services/delete.libro.action.js";
-import allLibros from "../Services/read.libros.action.js";
-import ReservarLibroAction from "../Services/reservar.libro.action.js";
-import DevolverLibroAction from "../Services/devolver.libro.action.js";
+import createLibroAction from "../Actions/create.libro.action.js";
+import readLibroAction from "../Actions/search.libro.action.js";
+import updateLibroAction from "../Actions/update.libro.action.js";
+import deleteLibroAction from "../Actions/delete.libro.action.js";
+import allLibros from "../Actions/read.libros.action.js";
+import ReservarLibroAction from "../Actions/reservar.libro.action.js";
+import DevolverLibroAction from "../Actions/devolver.libro.action.js";
 
 //Muestra todos los libros
 async function getLibros(req, res) {

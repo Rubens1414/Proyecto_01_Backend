@@ -1,8 +1,8 @@
-import createUsuarioAction from "../Services/create.usuario.action.js";
-import readUsuarioAction from "../Services/read.login.usuario.action.js";
-import updateUsuarioAction from "../Services/update.usuario.action.js";
-import deleteUsuarioAction from "../Services/delete.usuario.action.js";
-import allUsuarios from "../Services/read.usuarios.js";
+import createUsuarioAction from "../Actions/create.usuario.action.js";
+import readUsuarioAction from "../Actions/read.login.usuario.action.js";
+import updateUsuarioAction from "../Actions/update.usuario.action.js";
+import deleteUsuarioAction from "../Actions/delete.usuario.action.js";
+import allUsuarios from "../Actions/read.usuarios.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 

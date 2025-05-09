@@ -23,7 +23,7 @@ export async function connectDB() {
 async function seedUsuario() {
     const usersCount = await UsuarioModel.countDocuments();
     if (usersCount>0){
-        console.log('Usuarios ya implementados');
+        console.log('Usuarios de ejemplo ya implementados');
         return;
     }
     for (let user of UsuariosExample){
@@ -31,19 +31,19 @@ async function seedUsuario() {
         await UsuarioModel.create(user);
         
     }
-    console.log('Usuarios implementados');
+    console.log('Usuarios de ejemplo implementados');
 }
 
 async function seedLibros() {
     const libroCount = await LibroModel.countDocuments();
     if (libroCount>0){
-        console.log('Libros ya implementados');
+        console.log('Libros de ejemplo ya implementados');
         return;
     }
     for (let libro of LibrosExample){
         await LibroModel.create(libro);
     }
-    console.log('Libros implementados');
+    console.log('Libros de ejemplo ya implementados');
 }
 
 export default connectDB;
